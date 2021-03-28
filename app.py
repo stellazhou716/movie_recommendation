@@ -4,9 +4,9 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-app = flask.Flask(__name__, template_folder='templates')
+app = flask.Flask(__name__, template_folder='template')
 
-df2 = pd.read_csv('./tmdb.csv')
+df2 = pd.read_csv('/Users/stellazhou/Desktop/tmdb.csv')
 
 count = CountVectorizer(stop_words='english')
 count_matrix = count.fit_transform(df2['soup'])
@@ -31,6 +31,8 @@ def get_recommendations(title):
     return_df['Year'] = dat
     return return_df
 
+
+
 # Set up the main route
 @app.route('/', methods=['GET', 'POST'])
 
@@ -41,7 +43,7 @@ def main():
     if flask.request.method == 'POST':
         m_name = flask.request.form['movie_name']
         m_name = m_name.title()
-#        check = difflib.get_close_matches(m_name,all_titles,cutout=0.50,n=1)
+        
         if m_name not in all_titles:
             return(flask.render_template('negative.html',name=m_name))
         else:
